@@ -1,0 +1,131 @@
+﻿##### 4.1 NAVEGACION (pwd, cd) #####
+$ pwd
+/home/vagrant
+##### 4.2 CREAR ESTRUCTURA DE DIRECTORIOS #####
+$ mkdir temp
+$ mkdir temp/stuff
+$ mkdir temp/stuff/things
+$ mkdir -p temp/stuff/things/orange/apple/pear/grape
+$ find temp -type d
+temp
+temp/stuff
+temp/stuff/things
+temp/stuff/things/orange
+temp/stuff/things/orange/apple
+temp/stuff/things/orange/apple/pear
+temp/stuff/things/orange/apple/pear/grape
+##### 4.1 NAVEGACION (continuacion, ya con estructura creada) #####
+$ cd temp/stuff
+$ pwd
+/home/vagrant/temp/stuff
+$ cd ..
+$ pwd
+/home/vagrant/temp
+$ cd temp/stuff/things/orange/apple/pear/grape
+/vagrant/taller.sh: line 32: cd: temp/stuff/things/orange/apple/pear/grape: No such file or directory
+$ pwd
+/home/vagrant/temp
+$ cd ../../..
+$ pwd
+/
+$ cd ~
+$ pwd
+/home/vagrant
+##### 4.3 LISTAR CONTENIDO (ls) #####
+$ cd temp/stuff/things/orange/apple/pear
+$ ls
+grape
+##### 4.4 ELIMINAR DIRECTORIOS VACIOS (rmdir) #####
+$ cd temp/stuff/things/orange/apple/pear
+$ rmdir grape
+$ ls
+$ cd ..
+$ rmdir pear
+$ ls
+##### 4.5 PUSHD / POPD #####
+$ mkdir -p i/like/icecream
+$ pushd i/like/icecream
+~/i/like/icecream ~
+$ pwd
+/home/vagrant/i/like/icecream
+$ popd
+~
+$ pwd
+/home/vagrant
+$ pushd i/like/icecream
+~/i/like/icecream ~
+$ pushd   (sin argumentos, intercambia el tope de la pila)
+~ ~/i/like/icecream
+$ pwd
+/home/vagrant
+##### 4.6 CREAR ARCHIVOS VACIOS (touch) #####
+$ touch iamcool.txt
+$ ls -l iamcool.txt
+-rw-rw-r-- 1 vagrant vagrant 0 Aug  4 17:49 iamcool.txt
+##### 4.7 COPIAR ARCHIVOS Y DIRECTORIOS (cp) #####
+$ cp iamcool.txt neat.txt
+$ ls -l iamcool.txt neat.txt
+-rw-rw-r-- 1 vagrant vagrant 0 Aug  4 17:49 iamcool.txt
+-rw-rw-r-- 1 vagrant vagrant 0 Aug  4 17:49 neat.txt
+$ cp -r temp/stuff/things/orange something
+$ ls something
+apple
+##### 4.8 MOVER / RENOMBRAR (mv) #####
+$ touch awesome.txt
+$ mv awesome.txt uncool.txt
+$ ls uncool.txt
+uncool.txt
+$ mv something newplace
+$ ls newplace
+apple
+##### 4.9 VER CONTENIDO: less, more, cat #####
+$ printf 'linea 1\nlinea 2\nlinea 3\n' > demo.txt
+--- cat demo.txt (vuelca todo de una vez) ---
+linea 1
+linea 2
+linea 3
+--- more demo.txt (paginador que solo avanza hacia adelante) ---
+linea 1
+linea 2
+linea 3
+--- less demo.txt (paginador interactivo: adelante/atras, busqueda, salir con 'q') ---
+(less abre control directo de la terminal, por eso no se ejecuta dentro de este script automatizado; se usa en vivo durante la sustentacion escribiendo: less demo.txt)
+##### 4.10 ELIMINAR ARCHIVOS Y DIRECTORIOS (rm) #####
+$ rm uncool.txt
+$ ls
+demo.txt  i  iamcool.txt  neat.txt  newplace  temp
+$ rm iamcool.txt neat.txt demo.txt
+$ ls
+i  newplace  temp
+$ rm -rf newplace
+$ ls
+i  temp
+$ rm -rf temp i
+$ ls
+##### REFERENCIA RAPIDA ADICIONAL #####
+$ uname -a
+Linux servidor 5.15.0-160-generic #170-Ubuntu SMP Wed Oct 1 10:06:56 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+$ df -h
+Filesystem                         Size  Used Avail Use% Mounted on
+tmpfs                              297M  1.1M  296M   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv   31G  4.9G   24G  17% /
+tmpfs                              1.5G     0  1.5G   0% /dev/shm
+tmpfs                              5.0M     0  5.0M   0% /run/lock
+/dev/sda2                          2.0G  131M  1.7G   8% /boot
+$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           2.9Gi       195Mi       2.5Gi       1.0Mi       238Mi       2.6Gi
+Swap:          2.9Gi          0B       2.9Gi
+$ ps aux | head -5
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.3  0.4 102096 13064 ?        Ss   17:31   0:03 /sbin/init
+root           2  0.0  0.0      0     0 ?        S    17:31   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   17:31   0:00 [rcu_gp]
+root           4  0.0  0.0      0     0 ?        I<   17:31   0:00 [rcu_par_gp]
+$ grep root /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+$ touch permisos.txt && chmod 700 permisos.txt && ls -l permisos.txt
+-rwx------ 1 vagrant vagrant 0 Aug  4 17:49 permisos.txt
+##### 4.11 SALIR DE LA TERMINAL #####
+$ exit   (cierra la sesion SSH, no se ejecuta aqui para no cortar el script)
+##### TALLER COMPLETADO #####
